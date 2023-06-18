@@ -49,4 +49,49 @@ function productSorting (file = '') {
   return totalScore
 }
 
-console.log('The sum of the priority values are: ' + productSorting('products.txt'))
+function badgeFinding (file = '') {
+  if (!file) {
+    console.error('File not provuded')
+  }
+
+  const fs = require('fs')
+  const contents = fs.readFileSync(file, 'utf8').toString().trim().split('\n')
+  let totalScore = 0
+  const groupSize = 3
+
+  for (let i = 0; i < contents.length; i += groupSize) {
+    const firstSack = new Map()
+    const sameProducts = new Map()
+    let commonItem = null
+
+    // console.log(contents[i] + '\n' + contents[i + 1] + '\n' + contents[i + 2])
+
+    for (let c = 0; c < contents[i].length; c++) {
+      firstSack.set(contents[i][c], true)
+    }
+
+    for (let c = 0; c < contents[i + 1].length; c++) {
+      if (firstSack.get(contents[i + 1][c])) {
+        sameProducts.set(contents[i + 1][c], true)
+      }
+    }
+
+    for (let c = 0; c < contents[i + 2].length; c++) {
+      if (sameProducts.get(contents[i + 2][c])) {
+        commonItem = contents[i + 2][c]
+        break
+      }
+    }
+
+    if (!commonItem) {
+      console.log('No common Item found')
+    }
+
+    totalScore += productPriorityValue(commonItem)
+  }
+
+  return totalScore
+}
+
+console.log('The sum of the priority values for part 1 are: ' + productSorting('products.txt'))
+console.log('The sum of the priority values for part 2 are: ' + badgeFinding('products.txt'))
