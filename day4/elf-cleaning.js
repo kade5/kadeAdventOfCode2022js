@@ -26,7 +26,17 @@ function rangeContained (assignments = []) {
   return false
 }
 
-function cleaningAssignmentOverlap (file = '') {
+function rangeOverlap (assignments = []) {
+  const range1 = assignments[0].split('-')
+  const range2 = assignments[1].split('-')
+
+  if (Number(range1[1]) >= Number(range2[0]) && Number(range2[1]) >= Number(range1[0])) {
+    return true
+  }
+  return false
+}
+
+function cleaningAssignmentOverlap (file = '', logic) {
   if (!file) {
     console.error('File not provided')
   }
@@ -37,10 +47,9 @@ function cleaningAssignmentOverlap (file = '') {
 
   for (const pair of contents) {
     const assignments = pair.split(',')
-    if (rangeContained(assignments)) {
+    if (logic(assignments)) {
+      console.log(pair)
       countContained += 1
-    } else {
-      console.log(assignments)
     }
   }
 
@@ -51,5 +60,6 @@ function cleaningAssignmentOverlap (file = '') {
 // console.log(rangeContained(testArray))
 // console.log(getLargerRange(testArray))
 
-console.log('Number of contained ranges: ' + cleaningAssignmentOverlap('assignments.txt'))
+// console.log('Number of contained ranges: ' + cleaningAssignmentOverlap('assignments.txt', rangeContained))
+console.log('Number of contained ranges: ' + cleaningAssignmentOverlap('assignments.txt', rangeOverlap))
 // Correct answer is 464
