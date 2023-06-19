@@ -1,8 +1,8 @@
-function getNumStacks (stacks = '') {
+const getNumStacks = function (stacks = '') {
   return stacks.trim().split('   ').length
 }
 
-function initializeStacks (numStacks) {
+const initializeStacks = function (numStacks) {
   const stacks = []
   for (let i = 0; i < numStacks; i++) {
     stacks.push([])
@@ -11,11 +11,11 @@ function initializeStacks (numStacks) {
   return stacks
 }
 
-function prepareCrates (crateDiagram = '') {
+const prepareCrates = function (crateDiagram = '') {
   const splitRows = crateDiagram.split('\n')
   const numStacks = getNumStacks(splitRows[splitRows.length - 1])
   const stacks = initializeStacks(numStacks)
-  console.log('Number of stacks: ' + numStacks)
+  // console.log('Number of stacks: ' + numStacks)
   for (let i = splitRows.length - 2; i >= 0; i--) {
     const crates = splitRows[i]
     // console.log("'" + splitRows[i] + "'")
@@ -30,17 +30,20 @@ function prepareCrates (crateDiagram = '') {
   return stacks
 }
 
-function performInstruction (stacks, instructionArray) {
+const performInstruction = function (stacks, instructionArray) {
   const numCrates = Number(instructionArray[1])
   const from = Number(instructionArray[3]) - 1
   const to = Number(instructionArray[5]) - 1
 
+  // console.log('move ' + numCrates + ' to ' + to + ' from ' + from)
+
   for (let i = 1; i <= numCrates; i++) {
     stacks[to].push(stacks[from].pop())
   }
+  return stacks
 }
 
-function moveCrates (file = '') {
+const moveCrates = function (file = '') {
   if (!file) {
     console.log('File not provided')
   }
@@ -65,4 +68,6 @@ function moveCrates (file = '') {
   return output
 }
 
-console.log(moveCrates('crates.txt'))
+module.exports = {
+  performInstruction, moveCrates, getNumStacks, prepareCrates
+}
