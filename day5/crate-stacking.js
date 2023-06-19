@@ -30,7 +30,7 @@ const prepareCrates = function (crateDiagram = '') {
   return stacks
 }
 
-const performInstruction = function (stacks, instructionArray) {
+const performInstruction9000 = function (stacks, instructionArray) {
   const numCrates = Number(instructionArray[1])
   const from = Number(instructionArray[3]) - 1
   const to = Number(instructionArray[5]) - 1
@@ -43,7 +43,24 @@ const performInstruction = function (stacks, instructionArray) {
   return stacks
 }
 
-const moveCrates = function (file = '') {
+const performInstruction9001 = function (stacks, instructionArray) {
+  const numCrates = Number(instructionArray[1])
+  const from = Number(instructionArray[3]) - 1
+  const to = Number(instructionArray[5]) - 1
+  const tempStack = []
+
+  for (let i = 1; i <= numCrates; i++) {
+    tempStack.push(stacks[from].pop())
+  }
+
+  for (let i = 1; i <= numCrates; i++) {
+    stacks[to].push(tempStack.pop())
+  }
+
+  return stacks
+}
+
+const moveCrates = function (file = '', performInstruction) {
   if (!file) {
     console.log('File not provided')
   }
@@ -69,5 +86,5 @@ const moveCrates = function (file = '') {
 }
 
 module.exports = {
-  performInstruction, moveCrates, getNumStacks, prepareCrates
+  performInstruction9000, moveCrates, getNumStacks, prepareCrates, performInstruction9001
 }
