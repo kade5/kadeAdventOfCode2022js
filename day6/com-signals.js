@@ -1,8 +1,7 @@
-const getDataStreamBuffer = function (stream = '') {
+const getDataStreamBuffer = function (stream = '', bufferLength) {
   // const marker = []
   let markerPos = 0
   let startingPos = 0
-  const bufferLength = 4
   const charMap = new Map()
 
   // while (markerPos < bufferLength - 1) {
