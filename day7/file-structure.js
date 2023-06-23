@@ -62,6 +62,33 @@ const buildFileStructure = function (terminalOutput = []) {
   return tree
 }
 
+const calculateDirectorySize = function (parentNode, directoryMap) {
+  let directorySize = 0
+  if (parentNode.type === 'folder') {
+    for (let item of parentNode.descendents) {
+      if (item.type === 'file') {
+        directorySize += Number(item.value)
+      } else if (item.type === 'folder') {
+        directorySize += calculateDirectorySize(item, directoryMap)
+      }
+    }
+    directoryMap.set(parentNode.name, directorySize)
+
+    return directorySize
+  }
+}
+
+const sumDirectorySizes = function(directoryMap) {
+  let directorySize = 0
+
+  for (const [key, value] of directoryMap.entries()) {
+    if (value <= 100000) {
+      directorySize += value
+    }
+  }
+  return directorySize
+}
+
 const getTerminalOutputFromFile = function (file = '') {
   if (!file) {
     console.error('File not provided')
@@ -72,5 +99,5 @@ const getTerminalOutputFromFile = function (file = '') {
 }
 
 module.exports = {
-  getTerminalOutputFromFile, buildFileStructure
+  getTerminalOutputFromFile, buildFileStructure, calculateDirectorySize, sumDirectorySizes 
 }
