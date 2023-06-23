@@ -100,6 +100,23 @@ const getTerminalOutputFromFile = function (file = '') {
   return fs.readFileSync(file, 'utf8').toString().trim().split('\n')
 }
 
+const getRequiredSpace = function (totalDiskSpace, spaceNeeded, directoryMap) {
+  const usedSpace = directoryMap.get('/')
+
+  return spaceNeeded - (totalDiskSpace - usedSpace)
+}
+
+const getSpaceToDelete = function (totalDiskSpace, spaceNeeded, directoryMap) {
+  let minimumDirectorySpace = totalDiskSpace
+  const requiredSpace = getRequiredSpace(totalDiskSpace, spaceNeeded, directoryMap)
+  for (const [key, value] of directoryMap.entries()) {
+    if (value >= requiredSpace && value <= minimumDirectorySpace) {
+      minimumDirectorySpace = value
+    }
+  }
+
+  return minimumDirectorySpace
+}
 module.exports = {
-  getTerminalOutputFromFile, buildFileStructure, calculateDirectorySize, sumDirectorySizes 
+  getTerminalOutputFromFile, buildFileStructure, calculateDirectorySize, sumDirectorySizes, getRequiredSpace, getSpaceToDelete
 }
