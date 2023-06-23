@@ -1,8 +1,9 @@
 const TreeNode = class {
-  constructor (name, type, value = 0, parentNode = null) {
+  constructor (name, type, value = 0, fullpath = '/', parentNode = null) {
     this.name = name
     this.type = type
     this.value = value
+    this.fullpath = fullpath
     this.parentNode = parentNode
     this.descendents = []
   }
@@ -10,10 +11,11 @@ const TreeNode = class {
 
 const addNewNode = function (currentTreeNode, input) {
   let newTreeNode = null
+  const dirName = currentTreeNode.fullpath + input[1]
   if (input[0] === 'dir') {
-    newTreeNode = new TreeNode(input[1], 'folder', 0, currentTreeNode)
+    newTreeNode = new TreeNode(input[1], 'folder', 0, dirName + '/', currentTreeNode)
   } else {
-    newTreeNode = new TreeNode(input[1], 'file', input[0], currentTreeNode)
+    newTreeNode = new TreeNode(input[1], 'file', input[0], dirName, currentTreeNode)
   }
   currentTreeNode.descendents.push(newTreeNode)
 }
@@ -72,7 +74,7 @@ const calculateDirectorySize = function (parentNode, directoryMap) {
         directorySize += calculateDirectorySize(item, directoryMap)
       }
     }
-    directoryMap.set(parentNode.name, directorySize)
+    directoryMap.set(parentNode.fullpath, directorySize)
 
     return directorySize
   }
