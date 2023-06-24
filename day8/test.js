@@ -10,3 +10,9 @@ visible.setTreeVisibility(treeMap, visibilityArray)
 console.log(visibilityArray)
 const sumVisibleTrees = visible.countVisibleTrees(visibilityArray)
 console.assert(sumVisibleTrees === 21, 'Test 1 21:' + sumVisibleTrees)
+
+const scenicScore = visible.findScenicScore(1, 2, treeMap)
+console.assert(scenicScore === 4, 'Test 2 4:' + scenicScore)
+
+const bestScenicScore = visible.findBestScenicScore(treeMap)
+console.assert(bestScenicScore === 8, 'Test 3 8:' + bestScenicScore)

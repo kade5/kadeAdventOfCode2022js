@@ -79,6 +79,96 @@ const setTreeVisibilityDirection = function (direction, treeMap, visibilityArray
   }
 }
 
+const findScenicScore = function (row, column, treeMap) {
+  if (row <= 0 || column <= 0 || row >= treeMap.length || column >= treeMap[0].length) {
+    return 0
+  }
+
+  let scenicScore = 1
+  let currentCount = 0
+  const treeSize = treeMap[row][column]
+
+  //UP
+  for (let i = row - 1; i >= 0; i--) {
+    if (treeMap[i][column] >= treeSize) {
+      currentCount += 1
+      break
+    } else {
+    currentCount += 1
+    }
+  }
+  if (currentCount === 0) {
+    return 0
+  }
+
+  scenicScore = scenicScore * currentCount
+  currentCount = 0
+
+  //DOWN
+  for (let i = row + 1; i < treeMap.length ; i++) {
+    if (treeMap[i][column] >= treeSize) {
+      currentCount += 1
+      break
+    } else {
+    currentCount += 1
+    }
+  }
+  if (currentCount === 0) {
+    return 0
+  }
+
+  scenicScore = scenicScore * currentCount
+  currentCount = 0
+
+
+  //LEFT
+  for (let j = column - 1; j >= 0; j--) {
+    if (treeMap[row][j] >= treeSize) {
+      currentCount += 1
+      break
+    } else {
+    currentCount += 1
+    }
+  }
+  if (currentCount === 0) {
+    return 0
+  }
+
+  scenicScore = scenicScore * currentCount
+  currentCount = 0
+
+  //
+  for (let j = column + 1; j  < treeMap[0].length; j++) {
+    if (treeMap[row][j] >= treeSize) {
+      currentCount += 1
+      break
+    } else {
+    currentCount += 1
+    }
+  }
+  if (currentCount === 0) {
+    return 0
+  }
+
+  scenicScore = scenicScore * currentCount
+
+  return scenicScore
+}
+
+const findBestScenicScore =  function (treeMap) {
+  let bestScore = 0
+  for (let i = 0; i < treeMap.length; i++) {
+    for (let j = 0; j < treeMap[i].length; j++) {
+      let score = findScenicScore(i, j, treeMap)
+      if (score > bestScore) {
+        bestScore = score
+      }
+    }
+  }
+
+  return bestScore
+}
+
 const getArraySize = function (treeMap) {
   const n = treeMap.length
   const m = treeMap[0].length
@@ -105,5 +195,5 @@ const countVisibleTrees = function (visibilityArray) {
 
 
 module.exports = {
-  getTreeMapFromFile, getArraySize, setTreeVisibilityDirection, setTreeVisibility, countVisibleTrees
+  getTreeMapFromFile, getArraySize, setTreeVisibilityDirection, setTreeVisibility, countVisibleTrees, findScenicScore, findBestScenicScore
 }
